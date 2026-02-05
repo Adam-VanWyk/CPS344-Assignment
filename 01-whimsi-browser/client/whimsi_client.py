@@ -77,6 +77,13 @@ def renderer(content):
                 renderer(imported_file)
 
         elif type == "CLICK":
+            file = item[1]
+            x = int(item[2])
+            y = int(item[3])
+            text = item[4]
+            size = int(item[5])
+            color = item[6]
+            whimsi.draw_clickable_text(file, x, y, text, size, color)
 
 if __name__ == "__main__":
     whimsi = WhimsiRenderer()
