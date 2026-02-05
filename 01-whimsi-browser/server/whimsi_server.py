@@ -33,8 +33,7 @@ def handle_client(conn, addr, base_path):
                     f.close()
             except FileNotFoundError: 
                 print("ERROR::FILE_NOT_FOUND")
-
-        
+                
 
 def start_server(host='localhost', port=53009, base_path='.'):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
