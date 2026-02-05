@@ -23,7 +23,7 @@ def send_request_to_server(request, host="localhost", port=53009):
 # (2) Instead of loading files from the local file system, load them from the server
 
 def renderer(content):
-    lines = content.strip().slpit('\n')
+    lines = content.strip().split('\n')
     
     for line in lines:
         item = line.split()
@@ -83,7 +83,7 @@ def renderer(content):
             text = item[4]
             size = int(item[5])
             color = item[6]
-            whimsi.draw_clickable_text(file, x, y, text, size, color)
+            whimsi.draw_clickable_text(file, x, y, text, size, color, on_click)
 
 if __name__ == "__main__":
     whimsi = WhimsiRenderer()
@@ -97,9 +97,11 @@ if __name__ == "__main__":
     def on_click(file_path):
         # Example: Print the clicked file path
         print("Clicked file:", file_path)
+        whimsi.clear()
         # TODO: Fetch file from server and render it
-        fetch_response = send_request_to_server("FETCH")
-        renderer(fetch_response)
+        fetch_response = send_request_to_server(f"FETCH {file_path}")
+        if fetch_response:
+            renderer(fetch_response)
         # Here is an example of loading cats which you should replace
         # whimsi.clear()
         # for i in range(10):
@@ -113,6 +115,7 @@ if __name__ == "__main__":
 
     # Example of how to fetch from server
     # Note - make sure to run server first otherwise you will get None
+
     hello_response = send_request_to_server("HELLO")
     print("SERVER SAYS:", hello_response)
 
