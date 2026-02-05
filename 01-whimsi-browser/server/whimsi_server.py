@@ -20,19 +20,20 @@ def handle_client(conn, addr, base_path):
 
         if command == "HELLO":
             response = "WORLD"
-        conn.sendall(response.encode())
+            conn.sendall(response.encode())
 
         if command == "FETCH":
-            file = request.split(" ")[1]
-            path = base_path
-            try: 
-                if file in os.listdir(path):
-                    with open(os.path.join(path, file), 'r') as f:
-                        name = f.read()
-                        conn.sendall(name.encode())
-                    f.close()
-            except FileNotFoundError: 
-                print("ERROR::FILE_NOT_FOUND")
+            try:
+                file = request.split(" ", 1)[1]
+                path = os.path.join(base_path, file)
+             
+                if not os.path.isfile(path):
+                    conn.sendall("ERROR::FILE_NOT_FOUND".encode())
+                    return
+                with open(path, 'r') as f:
+                    conn.sendall(f.read().encode())
+            except Exception as e: 
+                conn.sendall("ERROR::INVALID_COMMAND".encode())
                 
 
 def start_server(host='localhost', port=53009, base_path='.'):

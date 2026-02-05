@@ -72,7 +72,7 @@ def renderer(content):
 
         elif type == "IMPORT":
             file = item[1]
-            imported_file = send_request_to_server(file)
+            imported_file = send_request_to_server(f"FETCH {file}")
             if imported_file:
                 renderer(imported_file)
 
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         whimsi.draw_text(10 + i * 10, 10 + i * 20, "Hello World!", 20, "black")
     whimsi.draw_alien(200, 200, 200)
 
-    whimsi.draw_clickable_text("../examples/cats.whimsi", 450, 450, "Load cats", 30, "blue", on_click)
+    whimsi.draw_clickable_text("../whimsi/cats.whimsi", 450, 450, "Load cats", 30, "blue", on_click)
 
     # Example of how to fetch from server
     # Note - make sure to run server first otherwise you will get None
