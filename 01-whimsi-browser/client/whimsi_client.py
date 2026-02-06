@@ -23,18 +23,21 @@ def send_request_to_server(request, host="localhost", port=53009):
 # (2) Instead of loading files from the local file system, load them from the server
 
 def renderer(content):
+    print("Rendering: ", content)
     lines = content.strip().split('\n')
     
     for line in lines:
+        if not line.strip():
+            continue
         item = line.split()
         type = item[0]
 
         if type == "TEXT":
             x = int(item[1])
             y = int(item[2])
-            text = item[3]
-            size = int(item[4])
-            color = item[5]
+            text = " ".join(item[3:-2])
+            size = int(item[-2])
+            color = item[-1]
             whimsi.draw_text(x, y, text, size, color)
 
         elif type == "RECT":
@@ -80,9 +83,9 @@ def renderer(content):
             file = item[1]
             x = int(item[2])
             y = int(item[3])
-            text = item[4]
-            size = int(item[5])
-            color = item[6]
+            text = " ".join(item[4:-2])
+            size = int(item[-2])
+            color = item[-1]
             whimsi.draw_clickable_text(file, x, y, text, size, color, on_click)
 
 if __name__ == "__main__":
@@ -92,32 +95,44 @@ if __name__ == "__main__":
         sys.exit(1)
     
     route = sys.argv[1]
-    host, file_path = route.split("/")
+    parts = route.split("/", 1)
+    host = parts[0]
+    file_path = parts[1]
+
+    print("HOST =", host)
+    print("FILE =", file_path)
 
     def on_click(file_path):
         # Example: Print the clicked file path
         print("Clicked file:", file_path)
         whimsi.clear()
         # TODO: Fetch file from server and render it
-        fetch_response = send_request_to_server(f"FETCH {file_path}")
-        if fetch_response:
+        fetch_response = send_request_to_server(f"FETCH {file_path}", host=host)
+        print(fetch_response)
+        if fetch_response and not fetch_response.startswith("ERROR"):
             renderer(fetch_response)
         # Here is an example of loading cats which you should replace
         # whimsi.clear()
         # for i in range(10):
         #     whimsi.draw_cat(10 + i * 100, 20 + i * 50, 200)
+    initial_page = send_request_to_server(f"FETCH {file_path}", host=host)
+    print("INITIAL PAGE CONTENT:")
+    print(repr(initial_page))
+    if initial_page and not initial_page.startswith("ERROR"):
+        renderer(initial_page)
 
-    for i in range(10):
-        whimsi.draw_text(10 + i * 10, 10 + i * 20, "Hello World!", 20, "black")
-    whimsi.draw_alien(200, 200, 200)
+    whimsi.exitonclick()
+    # for i in range(10):
+    #     whimsi.draw_text(10 + i * 10, 10 + i * 20, "Hello World!", 20, "black")
+    # whimsi.draw_alien(200, 200, 200)
 
-    whimsi.draw_clickable_text("../whimsi/cats.whimsi", 450, 450, "Load cats", 30, "blue", on_click)
+    # whimsi.draw_clickable_text("../whimsi/cats.whimsi", 450, 450, "Load cats", 30, "blue", on_click)
 
     # Example of how to fetch from server
     # Note - make sure to run server first otherwise you will get None
 
-    hello_response = send_request_to_server("HELLO")
-    print("SERVER SAYS:", hello_response)
+    # hello_response = send_request_to_server("HELLO")
+    # print("SERVER SAYS:", hello_response)
 
     # needed at very end, otherwise nothing will be shown
-    whimsi.exitonclick()
+        
