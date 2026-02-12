@@ -1,0 +1,4 @@
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/multiplexer-example/build/CMakeFiles/tcp_client.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/multiplexer-example/build/CMakeFiles/tcp_server.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/multiplexer-example/build/CMakeFiles/edit_cache.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/multiplexer-example/build/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.1)
-project(sockets)
+cmake_minimum_required(VERSION 3.5...3.28)
+project(sockets) 
 
 find_package(Threads REQUIRED)
 

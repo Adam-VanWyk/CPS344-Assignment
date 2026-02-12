@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cstring> // For memcpy and string operations
 #include <iostream>
+#include <ctime> // time
 
 #include "app_message.h"
 
@@ -42,6 +43,10 @@ int main() {
 
     AppMessage msg = AppMessage::deserialize(buffer);
 
+    time_t timestamp;
+    time(&timestamp);
+
+    std::cout << ctime(&timestamp) << " + port: " << msg.port << " - msg: " << msg.data << std::endl;
     // Route to the correct app based on port
     switch (msg.port) {
     case 1:
