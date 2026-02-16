@@ -101,6 +101,20 @@ Bakery text_deserializer(std::string file_path) {
 
 // Implement these 3 functions!
 // Hint: use print_bakery to help think about the text serializer
-void text_serializer(const Bakery& bakery, std::string file_path);
+void text_serializer(const Bakery& bakery, std::string file_path){
+    // print_bakery(bakery);
+    std::string Bake = "Employees: \n";
+    for (auto employee : bakery.employees){
+      Bake += employee + "\n";
+    }
+    Bake += "\nItems:\n";
+    
+
+    std::cout << (Bake);
+
+
+
+
+}
 Bakery binary_deserializer(std::string file_path);
 void binary_serializer(const Bakery& bakery, std::string file_path);

@@ -1,0 +1,5 @@
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/02-serializer-app/build/CMakeFiles/test_serializer.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/02-serializer-app/build/CMakeFiles/client.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/02-serializer-app/build/CMakeFiles/server.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/02-serializer-app/build/CMakeFiles/edit_cache.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/02-serializer-app/build/CMakeFiles/rebuild_cache.dir

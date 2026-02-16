@@ -15,6 +15,7 @@ int main() {
 
   // TODO: Implement, in order (check the bakery.cpp file):
   // 1. Text serializer
+  text_serializer(bakery, "../data/small.txt");
   // 2. Binary serializer
   // 3. Binary deserializer
 
