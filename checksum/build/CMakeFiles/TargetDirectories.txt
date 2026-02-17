@@ -1,0 +1,3 @@
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/checksum/build/CMakeFiles/checksum.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/checksum/build/CMakeFiles/edit_cache.dir
+/Users/avanwyk/Desktop/CPS344/Homework1/cps344-assignments/checksum/build/CMakeFiles/rebuild_cache.dir

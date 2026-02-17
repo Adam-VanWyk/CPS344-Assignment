@@ -1,5 +1,7 @@
 #include "inttypes.h"
 #include "stdio.h"
+#include <stdlib.h>
+#include <time.h>
 
 uint16_t compute_checksum(uint8_t *udp_packet, uint32_t len) {
   uint32_t sum = 0;
@@ -15,6 +17,19 @@ void print_packet(uint8_t *udp_packet, uint32_t len) {
   for (uint32_t i = 8; i < len; i++) {
     printf("%c", udp_packet[i]);
   }
+}
+
+void find_checksum_failure(uint8_t *udp_packet, uint32_t len){
+  srand(time(NULL));
+
+  uint16_t curr_checksum = compute_checksum(udp_packet, 21);
+  uint16_t prev_checksum = compute_checksum(udp_packet, 21);
+  while (curr_checksum != prev_checksum){
+    uint16_t rand_packet = (rand() %20)+8;
+    udp_packet[rand_packet] ^= (1 << ((rand()%(udp_packet[rand_packet]-1))+0));
+  }
+  print_packet(udp_packet, 21);
+  printf("%c", prev_checksum);
 }
 
 int main(void) {
@@ -33,10 +48,11 @@ int main(void) {
   // Add the checksum to the udp_packet
   udp_packet[6] = (checksum >> 8) & 0xff;
   udp_packet[7] = checksum & 0xff;
-
   // Now, we could send it!
   printf("Checksum: %u\n", checksum);
 
+  find_checksum_failure(udp_packet, 21);
+  
   // Print data portion as char*
   printf("Data: ");
   print_packet(udp_packet, 21);
