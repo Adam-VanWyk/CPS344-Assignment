@@ -12,7 +12,6 @@ def handle_client(conn, addr, base_path):
         data = conn.recv(1024) # whimsi protocol has a maximum request size of 1024 bytes
         request = data.decode().strip()
         print(f"{addr} - {request}")
-
         command = request.split(" ")[0]
 
         if (command != "HELLO" and command != "FETCH"):

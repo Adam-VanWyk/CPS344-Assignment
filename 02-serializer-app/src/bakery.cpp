@@ -108,7 +108,19 @@ void text_serializer(const Bakery& bakery, std::string file_path){
       Bake += employee + "\n";
     }
     Bake += "\nItems:\n";
-    
+    for (auto item : bakery.items){
+      Bake += item.name + ", " + item.price + "\n";
+    }
+    Bake += "\nOrders:\n";
+    for (auto order : bakery.orders){
+      Bake += order.employee + ": ";
+      for (auto item : order.items){
+        Bake += item.second + " " + item.first + ", ";
+      }
+      Bake.erase(Bake.length()-2, 2);
+      Bake += "\n";
+    }
+
 
     std::cout << (Bake);
 
