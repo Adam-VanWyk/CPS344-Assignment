@@ -17,7 +17,8 @@ int main() {
   // 1. Text serializer
   text_serializer(bakery, "../data/small.txt");
   // 2. Binary serializer
+  binary_serializer(bakery, "../data/smallbinary.txt");
   // 3. Binary deserializer
-
+  binary_deserializer("../data/smallbinary.txt");
   return 0;
 }

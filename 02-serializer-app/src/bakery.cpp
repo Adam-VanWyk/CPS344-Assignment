@@ -120,13 +120,83 @@ void text_serializer(const Bakery& bakery, std::string file_path){
       Bake.erase(Bake.length()-2, 2);
       Bake += "\n";
     }
+    //std::cout << (Bake);
+}
 
+void write_string(std::ostream& os, const std::string& s){
+  size_t size = s.size();
+  os.write(reinterpret_cast<const char*>(&size), sizeof(size));
+  os.write(s.data(), size);
+}
+std::string read_string(std::istream& is){
+  size_t size;
+  is.read(reinterpret_cast<char*>(&size), sizeof(size));
+  std::string s(size, '\0');
+  is.read(&s[0], size);
+  return s;
+}
 
-    std::cout << (Bake);
+Bakery binary_deserializer(std::string file_path){
+  std::ifstream in(file_path, std::ios::binary);
+  Bakery bakery;
 
+  size_t employee_size;
+  in.read(reinterpret_cast<char*>(&employee_size), sizeof(employee_size));
+  for (size_t i = 0; i < employee_size; i++){
+    bakery.employees.push_back(read_string(in));
+  }
 
+  size_t item_size;
+  in.read(reinterpret_cast<char*>(&item_size), sizeof(item_size));
+  for (size_t i = 0; i < item_size; i++){
+    bakery.items.push_back({read_string(in), read_string(in)});
+  }
+
+  size_t order_count;
+  in.read(reinterpret_cast<char*>(&order_count), sizeof(order_count));
+  for (size_t i = 0; i < order_count; ++i) {
+    Order order;
+    order.employee = read_string(in);
+    size_t pair_count;
+    in.read(reinterpret_cast<char*>(&pair_count), sizeof(pair_count));
+    for (size_t j = 0; j < pair_count; ++j) {
+      order.items.push_back({read_string(in), read_string(in)});
+    }
+    bakery.orders.push_back(order);
+  }
+  //print_bakery(bakery);
+  return bakery;
+}
+
+void binary_serializer(const Bakery& bakery, std::string file_path){
+  std::ofstream out(file_path, std::ios::binary);
+
+  size_t employee_size = bakery.employees.size();
+  out.write(reinterpret_cast<const char*>(&employee_size), sizeof(employee_size));
+  for (const auto& employee : bakery.employees){
+    write_string(out, employee);
+  }
+
+  size_t item_size = bakery.items.size();
+  out.write(reinterpret_cast<const char*>(&item_size), sizeof(item_size));
+  for (const auto& item : bakery.items){
+    write_string(out, item.name);
+    write_string(out, item.price);
+  }
+
+  size_t order_size = bakery.orders.size();
+  out.write(reinterpret_cast<const char*>(&order_size), sizeof(order_size));
+  for (const auto& order : bakery.orders){
+    write_string(out, order.employee);
+
+    size_t pair_size = order.items.size();
+    out.write(reinterpret_cast<const char*>(&pair_size), sizeof(pair_size));
+    for (const auto& pair : order.items){
+      write_string(out, pair.first);
+      write_string(out, pair.second);
+    }
+  }
 
 
 }
-Bakery binary_deserializer(std::string file_path);
-void binary_serializer(const Bakery& bakery, std::string file_path);
+
